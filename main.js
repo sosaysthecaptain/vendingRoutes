@@ -1,8 +1,10 @@
 var currentMap; //= new vendingMachineMap();
 var vendingMachineTest; //= new vendingMachine(1, 'test', 5, 5);
-var newPhenotype;
+var currentPopulation;
+var populationSize = 500;     // set pop size here
 var depot;
 
+var newPhenotype;
 
 // var cities = [];
 // var totalCities = 15;
@@ -24,28 +26,29 @@ function setup() {
   currentMap.populateRandomly(10);
   depot = new vendingMachine(-1, 'depot', 25, 25);      // depot is hardcoded here
 
+  // create population
+  currentPopulation = new population(populationSize);
+  
   // create a test phenotype
   newPhenotype = new routePhenotype(currentMap);
 
-}
 
-function draw() {
+
+  // draw, once
   background(0);
-
   renderRoute(newPhenotype, false);
 
-  // stroke(255);
-  // strokeWeight(4);
-  // noFill();
-  // beginShape();
+  for(var i = 0; i < currentPopulation.members.length; i++) {
+    renderRoute(currentPopulation.members[i], false);
+  }
 
-  // for (var i = 0; i < newPhenotype.driverA.length; i++) {
-  //   var point = newPhenotype.driverA[i];
-  //   vertex(point.globalX, point.globalY);
-  //   ellipse(point.globalX, point.globalY, 16, 16);
-  // }
-  // endShape();
 }
+
+// function draw() {
+//   background(0);
+
+//   renderRoute(newPhenotype, false);
+// }
 
 function renderRoute(phenotype, best) {
   /*

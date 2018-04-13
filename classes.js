@@ -19,6 +19,9 @@ class routePhenotype {
         this.driverA = [];
         this.driverB = [];
         this.testArray = [1, 1, 1, 1, 2, 3];
+        this.totalDistanceA = 0;
+        this.totalDistanceB = 0;
+        this.totalDistance = 0;
 
         this.generateRandomPhenotype();
     }
@@ -73,8 +76,42 @@ class routePhenotype {
         return routeAToReturn;
     }
 
-    getRouteB() {
-        console.log('IMPLEMENT THIS');
+    getTotalDistance() {
+        /* 
+        Calculates totalDistanceA, totalDistanceB, totalDistance.
+        */
+        
+        // get routes
+        let routeA = this.getRoute('A');
+        let routeB = this.getRoute('B');
+        
+        // sum routeA
+        for (var i = 0; i < routeA.length - 1; i++) {
+            let vendingMachineAtIndex = routeA[i];
+            let nextVendingMachine = routeA[i+1];
+
+            let distance = dist(vendingMachineAtIndex.globalX, vendingMachineAtIndex.globalY, nextVendingMachine.globalX, nextVendingMachine.globalY);
+
+            this.totalDistanceA += distance;
+        }
+
+        // sum routeB
+        for (var i = 0; i < routeB.length - 1; i++) {
+            let vendingMachineAtIndex = routeB[i];
+            let nextVendingMachine = routeB[i+1];
+
+            let distance = dist(vendingMachineAtIndex.globalX, vendingMachineAtIndex.globalY, nextVendingMachine.globalX, nextVendingMachine.globalY);
+
+            //console.log('distance b:' + distance);
+
+            this.totalDistanceB += distance;
+        }
+
+        // total sum
+        this.totalDistance = this.totalDistanceA + this.totalDistanceB;
+
+        // testing
+        //console.log('totalDistance: ' + this.totalDistanceA);
     }
 }
 
@@ -103,6 +140,21 @@ class vendingMachineMap {
             this.vendingMachines.push(newVendingMachine);
         }
     }
+
+}
+
+class population {
+    constructor(totalMembers) {
+        this.totalMembers = totalMembers;
+        this.members = [];
+
+        // instantiate population
+        for (var i = 0; i < this.totalMembers; i++) {
+            let newPhenotype = new routePhenotype(currentMap);
+            this.members.push(newPhenotype);
+        }
+    }
+
 
 }
 
