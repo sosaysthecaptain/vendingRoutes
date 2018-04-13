@@ -30,7 +30,7 @@ function setup() {
   currentPopulation = new population(populationSize);
   
   // create a test phenotype
-  newPhenotype = new routePhenotype(currentMap);
+  //newPhenotype = new routePhenotype(currentMap);
 
 
 
@@ -45,66 +45,143 @@ function setup() {
 }
 
 function draw() {
-  background(0);
 
-  let newPop = new population(populationSize);
-  renderRoute(newPop.members[0], false);
+  // Draw current best and running best
+  renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
+  // console.log('generation: ' + currentPopulation.generation);
+  // console.log('current best totalDistance: ' + currentPopulation.bestPhenotypeToDate.totalDistance);
+  
+  // Assess fitness, select next generation
+  // currentPopulation.assessFitness();
+  // currentPopulation.selectNextGeneration();
+
+
 }
 
-function renderRoute(phenotype, best) {
+function renderRoute(currentPhenotype, bestPhenotype) {
   /*
   Renders both routes of given phenotype. If best is true, draws it much heavier and in color
   */
 
-  let routeA = phenotype.getRoute('A');
-  let routeB = phenotype.getRoute('B');
+  let currentRouteA = currentPhenotype.getRoute('A');
+  let currentRouteB = currentPhenotype.getRoute('B');
+  let bestRouteA = bestPhenotype.getRoute('A');
+  let bestRouteB = bestPhenotype.getRoute('B');
 
-  if (best) {
-    strokeWeight(6);
-  } else if (!best) {
-    strokeWeight(1);
-  }
+  background(0);
+
+  // draw current, route A
+  strokeWeight(2);
+  stroke(0, 50, 100);
   noFill();
 
-  // draw routeA
-  if (best) {
-    strokeWeight(6);
-    stroke(0, 0, 255);
-  } else if (!best) {
-    strokeWeight(1);
-    stroke(0,255,0);
-  }
   beginShape();
-  for (var i = 0; i < routeA.length; i++) {
-    var point = routeA[i];
+  for (var i = 0; i < currentRouteA.length; i++) {
+    var point = currentRouteA[i];
     vertex(point.globalX, point.globalY);
-    ellipse(point.globalX, point.globalY, 16, 16);
+    ellipse(point.globalX, point.globalY, 6, 6);
   }
   endShape();
 
-  // draw routeB
-  if (best) {
-    strokeWeight(6);
-    stroke(0, 255, 0);
-  } else if (!best) {
-    strokeWeight(2);
-    stroke(135,206,250);
-  }
+  // draw current, routeB
+  strokeWeight(2);
+  stroke(0, 100, 50);
   beginShape();
-  for (var i = 0; i < routeB.length; i++) {
-    var point = routeB[i];
+  for (var i = 0; i < currentRouteB.length; i++) {
+    var point = currentRouteB[i];
     vertex(point.globalX, point.globalY);
-    ellipse(point.globalX, point.globalY, 16, 16);
+    ellipse(point.globalX, point.globalY, 6, 6);
+  }
+  endShape();
+
+
+  // draw best, routeA
+  strokeWeight(4); 
+  stroke(0, 0, 255);
+
+  beginShape();
+  for (var i = 0; i < bestRouteA.length; i++) {
+    var point = bestRouteA[i];
+    vertex(point.globalX, point.globalY);
+    ellipse(point.globalX, point.globalY, 6, 6);
+  }
+  endShape();
+
+  // draw best, routeB
+  strokeWeight(4); 
+  stroke(0, 255, 0);
+
+  beginShape();
+  for (var i = 0; i < bestRouteB.length; i++) {
+    var point = bestRouteB[i];
+    vertex(point.globalX, point.globalY);
+    ellipse(point.globalX, point.globalY, 6, 6);
   }
   endShape();
 
   // draw depot in red
   beginShape()
   stroke(255, 0, 0);
-  ellipse(depot.globalX, depot.globalY, 16, 16);
+  ellipse(depot.globalX, depot.globalY, 6, 6);
   endShape()
-
 }
+
+// function renderRoute(phenotype, best) {
+//   /*
+//   Renders both routes of given phenotype. If best is true, draws it much heavier and in color
+//   */
+
+//   let routeA = phenotype.getRoute('A');
+//   let routeB = phenotype.getRoute('B');
+
+//   background(0);
+
+//   if (best) {
+//     strokeWeight(6);
+//   } else if (!best) {
+//     strokeWeight(1);
+//   }
+//   noFill();
+
+//   // draw routeA
+//   if (best) {
+//     strokeWeight(6);
+//     stroke(0, 0, 255);
+//   } else if (!best) {
+//     strokeWeight(1);
+//     stroke(0,255,0);
+//   }
+//   beginShape();
+//   for (var i = 0; i < routeA.length; i++) {
+//     var point = routeA[i];
+//     vertex(point.globalX, point.globalY);
+//     ellipse(point.globalX, point.globalY, 6, 6);
+//   }
+//   endShape();
+
+//   // draw routeB
+//   if (best) {
+//     strokeWeight(6);
+//     stroke(0, 255, 0);
+//   } else if (!best) {
+//     strokeWeight(2);
+//     stroke(135,206,250);
+//   }
+//   beginShape();
+//   for (var i = 0; i < routeB.length; i++) {
+//     var point = routeB[i];
+//     vertex(point.globalX, point.globalY);
+//     ellipse(point.globalX, point.globalY, 6, 6);
+//   }
+//   endShape();
+
+//   // draw depot in red
+//   beginShape()
+//   stroke(255, 0, 0);
+//   ellipse(depot.globalX, depot.globalY, 6, 6);
+//   endShape()
+
+// }
 
 // function setup() {
 //   createCanvas(800, 800);
