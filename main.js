@@ -35,20 +35,21 @@ function setup() {
 
 
   // draw, once
-  background(0);
-  renderRoute(newPhenotype, false);
+  // background(0);
+  // renderRoute(newPhenotype, false);
 
-  for(var i = 0; i < currentPopulation.members.length; i++) {
-    renderRoute(currentPopulation.members[i], false);
-  }
+  // for(var i = 0; i < currentPopulation.members.length; i++) {
+  //   renderRoute(currentPopulation.members[i], false);
+  // }
 
 }
 
-// function draw() {
-//   background(0);
+function draw() {
+  background(0);
 
-//   renderRoute(newPhenotype, false);
-// }
+  let newPop = new population(populationSize);
+  renderRoute(newPop.members[0], false);
+}
 
 function renderRoute(phenotype, best) {
   /*
@@ -96,6 +97,12 @@ function renderRoute(phenotype, best) {
     ellipse(point.globalX, point.globalY, 16, 16);
   }
   endShape();
+
+  // draw depot in red
+  beginShape()
+  stroke(255, 0, 0);
+  ellipse(depot.globalX, depot.globalY, 16, 16);
+  endShape()
 
 }
 

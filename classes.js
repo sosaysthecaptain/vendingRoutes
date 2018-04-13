@@ -22,6 +22,7 @@ class routePhenotype {
         this.totalDistanceA = 0;
         this.totalDistanceB = 0;
         this.totalDistance = 0;
+        this.normalizedFitness = 0;
 
         this.generateRandomPhenotype();
     }
@@ -153,6 +154,50 @@ class population {
             let newPhenotype = new routePhenotype(currentMap);
             this.members.push(newPhenotype);
         }
+    }
+
+    assessFitness() {
+        /*
+        Calculates basic and normalized fitness scores. Sorts members array by normalized fitness.
+        */
+
+        // Use local method to get total distance for each phenotype. Sum total for normalized route length
+        var routeLengthSum = 0;
+        for (var i = 0; i < this.totalMembers; i++) {
+            this.members[i].getTotalDistance();
+            routeLengthSum += this.members[i].totalDistance;
+            console.log(this.members[i].totalDistance);
+        }
+        console.log('route length sum: ' + routeLengthSum);
+
+        // Sort this.members by fitness, best first, so we can pull out the best of the lot easily
+        // TODO
+        
+        // With routeLengthSum in hand, iterate through a second time to set normalizedFitness
+        // TODO
+
+        
+
+    }
+
+    selectNextGeneration() {
+        /*
+        Selects a new population on the basis of fitness scores of the old population. Puts each phenotype into an array a certain number of times on the basis of its normalized fitness score, shuffles the array, and uses the first portion of it.
+        */
+    }
+
+    mutate(array, mutationRate) {
+        /*
+        Performs single swap according to probability of the mutation rate
+        */
+
+    }
+
+    crossover(arrayA, arrayB) {
+        /*
+        Performs crossover between every member of the two passed arrays. Takes first half of arrayA[i], then the first remainder of arrayB not in arrayA.
+        */
+
     }
 
 
