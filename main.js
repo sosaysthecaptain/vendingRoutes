@@ -37,23 +37,30 @@ function setup() {
   // draw, once
   // background(0);
   // renderRoute(newPhenotype, false);
-
-  // for(var i = 0; i < currentPopulation.members.length; i++) {
-  //   renderRoute(currentPopulation.members[i], false);
-  // }
-
+  currentPopulation.newGenerationRandom();
+  currentPopulation.assessFitness();
+  renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
 }
 
 function draw() {
 
   // Draw current best and running best
-  renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
+  //renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
+
+  // Brute force
+  //currentPopulation.newGenerationRandom();
+  //currentPopulation.assessFitness();
+  //console.log('generation ' + currentPopulation.generation);
+  //console.log('fitness score: ' + currentPopulation.bestPhenotypeToDate.fitness);
+  //console.log(currentPopulation.bestPhenotypeToDate.totalDistance);
+
   // console.log('generation: ' + currentPopulation.generation);
   // console.log('current best totalDistance: ' + currentPopulation.bestPhenotypeToDate.totalDistance);
   
   // Assess fitness, select next generation
   // currentPopulation.assessFitness();
   // currentPopulation.selectNextGeneration();
+
 
 
 }
