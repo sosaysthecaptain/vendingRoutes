@@ -43,11 +43,12 @@ class routePhenotype {
         /*
         Randomly assigns vendingMachines in passed map between two routes, sets routes up to begin and end at startPoint. Called on instantiation of a new routePhenotype.
         */
-       //console.log('DEBUG. best distance is: ' + currentMap.bestPhenotypeToDate.fitness);
+       
 
         // create shuffledMapArray from map
         let localMapArray = currentMap.vendingMachines;                 // so as not to disturb original
         let shuffledMapArray = shuffle(localMapArray);
+
 
         // reset routes
         this.driverA = [];
@@ -59,13 +60,18 @@ class routePhenotype {
             this.driverA.push(shuffledMapArray.pop());
             this.driverB.push(shuffledMapArray.pop());
         }
+        this.getTotalDistance();
+        this.calcFitness();
         
+        //console.log('DEBUG. best distance is: ' + currentPopulation);
     }
 
     getRoute(route) {
         /*
         Returns specified route, A or B, with depot appended to beginning and end
         */
+
+        //console.log('getRoute firing. driverA.length: ' + this.driverA.length);
 
         var routeAToReturn = [];
         routeAToReturn.push(depot);
@@ -124,6 +130,12 @@ class routePhenotype {
 
         // total sum
         this.totalDistance = this.totalDistanceA + this.totalDistanceB;
+
+        // DEBUG
+        // if (this.totalDistance == 0) {
+        //     console.log('finding zero. driverB.length: ' + routeB.length);
+        // }
+        // console.log('getTotalDistance finds ' + this.totalDistance);
 
         // testing
         //console.log('totalDistance: ' + this.totalDistanceA);

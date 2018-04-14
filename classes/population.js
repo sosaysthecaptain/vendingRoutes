@@ -6,6 +6,8 @@ class population {
         this.bestPhenotypeToDate;
         this.generation = 0;
 
+        this.runningBestDistance = Infinity;
+
         // instantiate population
         for (var i = 0; i < this.totalMembers; i++) {
             let newPhenotype = new routePhenotype(currentMap);
@@ -16,7 +18,6 @@ class population {
         this.bestPhenotypeToDate = new routePhenotype(currentMap);          // COULD THIS BE THE PROBLEM?
         this.bestPhenotypeToDate.generateRandomPhenotype();
         this.currentBestPhenotype = this.members[0];
-        this.assessFitness();
     }
 
     
@@ -25,8 +26,24 @@ class population {
         Used for brute force method for testing. 
         */
 
+        // iterate over entire population
         for(var i = 0; i < this.totalMembers; i++) {
+            
             this.members[i].generateRandomPhenotype();
+
+            // // shuffle the map
+            // let shuffledMapArray = shuffle(this.members[i].currentMap.vendingMachines);
+
+            // // reset routes
+            // this.members[i].driverA = [];
+            // this.members[i].driverB = [];
+
+            // // split shuffledMapArray between the two routes
+            // let stopsPerRoute = this.members[i].currentMap.numberOfVendingMachines / 2;
+            // for (var j = 0; j < stopsPerRoute; j++) {
+            //     this.members[j].driverA.push(shuffledMapArray.pop());
+            //     this.members[j].driverB.push(shuffledMapArray.pop());
+            // }
         }
         this.generation += 1;
     }
@@ -37,10 +54,10 @@ class population {
         */
 
         // Use local method to get total distance for each phenotype. Sum total for normalized route length. Run calcFitness.
+
+
         var routeLengthSum = 0;
         for (var i = 0; i < this.totalMembers; i++) {
-            this.members[i].getTotalDistance();
-            this.members[i].calcFitness();
             routeLengthSum += this.members[i].totalDistance;
         }
 
@@ -53,26 +70,25 @@ class population {
             }
         });
 
-        // If current best is better than best ever, reset it
-        // if (this.members[0].totalDistance < this.bestPhenotypeToDate.totalDistance) {
-        //     this.bestPhenotypeToDate = this.members[0];
-        // }
-        
-        console.log('prospective new: ' + this.members[0].fitness + ', old: ' + this.bestPhenotypeToDate.fitness)       // REMOVE
-
-        if (this.members[0].fitness > this.bestPhenotypeToDate.fitness) {
-            //DEBUG
-            console.log('RESETTING BEST EVER. OLD FITNESS: ' + this.bestPhenotypeToDate.fitness);
-           
-            this.bestPhenotypeToDate = this.members[0];
-            
-            //DEBUG
-            console.log('RESETTING BEST EVER. NEW FITNESS: ' + this.bestPhenotypeToDate.fitness);
-        }
-        
-        // With routeLengthSum in hand, iterate through a second time to set normalizedFitness
+        // with routeLengthSum in hand, iterate through a second time and set normalizedFitness
         for (var i = 0; i < this.totalMembers; i++) {
             this.members[i].normalizedFitness = floor((this.members[i].fitness / routeLengthSum) * 1000000);
+        }
+
+        // if this is better than the running best, reset that
+        if (this.members[0].totalDistance < this.runningBestDistance) {
+            
+            this.runningBestDistance = this.members[0].totalDistance;
+            //this.bestPhenotypeToDate = this.members.slice(0, 1);        // maybe use route method to copy?
+
+            // Kludge, because copying directly wasn't working
+            this.bestPhenotypeToDate = new routePhenotype(currentMap);
+            this.bestPhenotypeToDate.driverA = this.members[0].driverA;
+            this.bestPhenotypeToDate.driverB = this.members[0].driverB;
+            this.bestPhenotypeToDate.getTotalDistance();
+            this.bestPhenotypeToDate.calcFitness();
+
+            console.log('gen ' + this.generation + ', best distance: ' + floor(this.bestPhenotypeToDate.totalDistance));
         }
     }
 

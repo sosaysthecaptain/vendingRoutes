@@ -6,24 +6,32 @@ var depot;
 
 var newPhenotype;
 
-// var cities = [];
-// var totalCities = 15;
+/*
+For brute force implementation:
+  Setup
+    - instantiate and populate currentMap
+    - instantiate currentPopulation
+    - optionally, run loop or perform single step
 
-// var popSize = 500;
-// var population = [];
-// var fitness = [];
+  Loop, which may or may not be in draw()
+    - renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate)
+      - this draws the current best
+    - currentPopulation.newGenerationRandom()
+      - works. Uses local method in routePhenotype. Completes totalDistance and fitness calculations
+    - currentPopulation.assessFitness()
+      - sums total route length for each phenotype
+      - calculates normalized fitness
+      - sorts population with best first
+      - 
 
-// var recordDistance = Infinity;
-// var bestEver;
-// var currentBest;
-
-// var statusP;
+    * IDEA: a weighted random function, picking an index of the sorted list, with preference toward the beginning. Better, with preference based on weighting variable, which is normalizedFitness
+*/
 
 function setup() {
   createCanvas(600, 600);
   
   currentMap = new vendingMachineMap();
-  currentMap.populateRandomly(10);
+  currentMap.populateRandomly(16);
   depot = new vendingMachine(-1, 'depot', 25, 25);      // depot is hardcoded here
 
   // create population
@@ -32,106 +40,23 @@ function setup() {
   // create a test phenotype
   //newPhenotype = new routePhenotype(currentMap);
 
+  // for (var i = 0; i < 10000; i++) {
+  //   renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
+  //   currentPopulation.newGenerationRandom();
+  //   currentPopulation.assessFitness();
+  // }
 
-
-  // draw, once
-  // background(0);
-  // renderRoute(newPhenotype, false);
-  currentPopulation.newGenerationRandom();
-  currentPopulation.assessFitness();
   renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
 }
 
 function draw() {
-
-  // Draw current best and running best
-  //renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
-
-  // Brute force
-  //currentPopulation.newGenerationRandom();
-  //currentPopulation.assessFitness();
-  //console.log('generation ' + currentPopulation.generation);
-  //console.log('fitness score: ' + currentPopulation.bestPhenotypeToDate.fitness);
-  //console.log(currentPopulation.bestPhenotypeToDate.totalDistance);
-
-  // console.log('generation: ' + currentPopulation.generation);
-  // console.log('current best totalDistance: ' + currentPopulation.bestPhenotypeToDate.totalDistance);
-  
-  // Assess fitness, select next generation
-  // currentPopulation.assessFitness();
-  // currentPopulation.selectNextGeneration();
-
-
+    renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
+    currentPopulation.newGenerationRandom();
+    currentPopulation.assessFitness();
 
 }
 
-function renderRoute(currentPhenotype, bestPhenotype) {
-  /*
-  Renders both routes of given phenotype. If best is true, draws it much heavier and in color
-  */
 
-  let currentRouteA = currentPhenotype.getRoute('A');
-  let currentRouteB = currentPhenotype.getRoute('B');
-  let bestRouteA = bestPhenotype.getRoute('A');
-  let bestRouteB = bestPhenotype.getRoute('B');
-
-  background(0);
-
-  // draw current, route A
-  strokeWeight(2);
-  stroke(0, 50, 100);
-  noFill();
-
-  beginShape();
-  for (var i = 0; i < currentRouteA.length; i++) {
-    var point = currentRouteA[i];
-    vertex(point.globalX, point.globalY);
-    ellipse(point.globalX, point.globalY, 6, 6);
-  }
-  endShape();
-
-  // draw current, routeB
-  strokeWeight(2);
-  stroke(0, 100, 50);
-  beginShape();
-  for (var i = 0; i < currentRouteB.length; i++) {
-    var point = currentRouteB[i];
-    vertex(point.globalX, point.globalY);
-    ellipse(point.globalX, point.globalY, 6, 6);
-  }
-  endShape();
-
-
-  // draw best, routeA
-  strokeWeight(4); 
-  stroke(0, 0, 255);
-
-  beginShape();
-  for (var i = 0; i < bestRouteA.length; i++) {
-    var point = bestRouteA[i];
-    vertex(point.globalX, point.globalY);
-    ellipse(point.globalX, point.globalY, 6, 6);
-  }
-  endShape();
-
-  // draw best, routeB
-  strokeWeight(4); 
-  stroke(0, 255, 0);
-
-  beginShape();
-  for (var i = 0; i < bestRouteB.length; i++) {
-    var point = bestRouteB[i];
-    vertex(point.globalX, point.globalY);
-    ellipse(point.globalX, point.globalY, 6, 6);
-  }
-  endShape();
-
-  // draw depot in red
-  beginShape()
-  stroke(255, 0, 0);
-  ellipse(depot.globalX, depot.globalY, 6, 6);
-  endShape()
-}
 
 // function renderRoute(phenotype, best) {
 //   /*
