@@ -8,6 +8,8 @@ class population {
 
         this.runningBestDistance = Infinity;
 
+        this.testArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
         // instantiate population
         for (var i = 0; i < this.totalMembers; i++) {
             let newPhenotype = new routePhenotype(currentMap);
@@ -138,33 +140,44 @@ class population {
         parentBucketA = shuffle(parentBucketA);
         parentBucketB = shuffle(parentBucketB);
 
-        console.log('DEBUG: parentBucketA.length: ' + parentBucketA.length);
+        //console.log('DEBUG: parentBucketA.length: ' + parentBucketA.length);
 
         parentArrayA = parentBucketA.slice(0, 500);
         parentArrayB = parentBucketB.slice(0, 500);
 
-        console.log('DEBUG: parentArrayA.length: ' + parentArrayA.length);
+        //console.log('DEBUG: parentArrayA.length: ' + parentArrayA.length);
 
         // PROVISIONAL: set next generation as parentArrayA
-        this.members = parentArrayA;
+        this.members = parentArrayA.slice();
 
         //console.log(this.members);
 
         // Increment generation
         this.generation += 1;
 
+        // Assess fitness, because why not do it here?
+        this.assessFitness();
+
         // DEBUG: report
-        console.log('Created generation ' + this.generation);
-        console.log('parentArrayA.length: ' + parentArrayA.length);
-        console.log('this.members.length: ' + this.members.length);
-        //console.log('Current best distance: ' + this.currentBestPhenotype.totalDistance);
-        //console.log('Current best fitness score: ' + this.currentBestPhenotype.fitness);
+        console.log('Created generation ' + this.generation + '. Best = ' + floor(this.bestPhenotypeToDate.totalDistance));
     }
 
-    mutate(array, mutationRate) {
+    mutate(mutationRate) {
         /*
-        Performs single swap according to probability of the mutation rate
+        Performs single swap according to probability of the mutation rate, which is a value between 0 and 1.
         */
+
+        if (random(1) < mutationRate) {
+            let length = this.members.length;
+            let pointA = floor(random(length));
+            let pointB = floor(random(length));
+
+            let temp = this.members[pointA];
+            this.members[pointA] = this.members[pointB];
+            this.members[pointB] = temp;
+        }
+
+        
 
     }
 

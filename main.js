@@ -40,10 +40,10 @@ function setup() {
   // create a test phenotype
   //newPhenotype = new routePhenotype(currentMap);
 
-  // for (var i = 0; i < 10000; i++) {
+  //currentPopulation.selectNextGeneration();
+  // for (var i = 0; i < 100; i++) {
   //   renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
-  //   currentPopulation.newGenerationRandom();
-  //   currentPopulation.assessFitness();
+  //   currentPopulation.selectNextGeneration();
   // }
 
   renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
@@ -51,8 +51,9 @@ function setup() {
 
 function draw() {
     renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
-    currentPopulation.newGenerationRandom();
-    currentPopulation.assessFitness();
+    //currentPopulation.newGenerationRandom();
+    //currentPopulation.selectNextGeneration();
+    //currentPopulation.assessFitness();
 
 }
 
