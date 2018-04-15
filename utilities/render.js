@@ -1,12 +1,12 @@
-function renderRoute(currentPhenotype, bestPhenotype) {
+function renderRoute(currentPhenotype) {
     /*
     Renders both routes of given phenotype. If best is true, draws it much heavier and in color
     */
   
     let currentRouteA = currentPhenotype.getRoute('A');
     let currentRouteB = currentPhenotype.getRoute('B');
-    let bestRouteA = bestPhenotype.getRoute('A');
-    let bestRouteB = bestPhenotype.getRoute('B');
+    let bestRouteA = currentPopulation.runningBestRouteA;
+    let bestRouteB = currentPopulation.runningBestRouteB;
   
     background(0);
   

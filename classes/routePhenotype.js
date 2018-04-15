@@ -14,14 +14,24 @@ class routePhenotype {
     }
 
     printRoutes() {
-        var routeA = [];
-        var routeB = [];
-        for (var i = 0; i < this.driverA.length; i++) {
-            routeA.push(this.driverA[i].number);
-            routeB.push(this.driverB[i].number);
+        /*
+        Debug function, prints routes A and B by index number
+        */
+
+        let routeA = this.getRoute('A');
+        let routeB = this.getRoute('B');
+        let routeAByIndex = [];
+        let routeBByIndex = [];
+
+        for (var i = 0; i < routeA.length; i++) {
+            routeAByIndex.push(routeA[i].number);
         }
-        console.log("driverA's route: " + routeA);
-        console.log("driverB's route: " + routeB);
+        for (var i = 0; i < routeB.length; i++) {
+            routeBByIndex.push(routeB[i].number);
+        }
+        
+        console.log("driverA's route: " + routeAByIndex);
+        console.log("driverB's route: " + routeBByIndex);
     }
 
     getListOfDistances() {

@@ -3,6 +3,9 @@ var vendingMachineTest; //= new vendingMachine(1, 'test', 5, 5);
 var currentPopulation;
 var populationSize = 500;     // set pop size here
 var depot;
+var mutationRate = 1;       // set mutation rate here
+
+var reigningBest;
 
 var newPhenotype;
 
@@ -36,25 +39,18 @@ function setup() {
 
   // create population
   currentPopulation = new population(populationSize);
-  
-  // create a test phenotype
-  //newPhenotype = new routePhenotype(currentMap);
+  currentPopulation.runningBestRouteA = currentPopulation.members[0].getRoute('A');
+  currentPopulation.runningBestRouteB = currentPopulation.members[0].getRoute('B');
 
-  // currentPopulation.selectNextGeneration();
-  // for (var i = 0; i < 100; i++) {
-  //   //renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
-  //   currentPopulation.selectNextGeneration();
-  // }
-
-  renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
+  //renderRoute(currentPopulation.currentBestPhenotype, reigningBest);
 }
 
 function draw() {
-    renderRoute(currentPopulation.currentBestPhenotype, currentPopulation.bestPhenotypeToDate);
+    renderRoute(currentPopulation.currentBestPhenotype, reigningBest);
     currentPopulation.newGenerationRandom();
-    currentPopulation.selectNextGeneration();
+    currentPopulation.assessFitness();
+    //currentPopulation.selectNextGeneration();
 
-    console.log('members length: ' + this.currentPopulation.members.length);
     //currentPopulation.assessFitness();
 
 }
