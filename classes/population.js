@@ -106,57 +106,58 @@ class population {
         Selects a new population on the basis of fitness scores of the old population. Puts each phenotype into an array a certain number of times on the basis of its normalized fitness score, shuffles the array, and uses the first portion of it.
         */
 
-        // CURRENTLY A GARBAGE FIRE
-
-
         var parentBucketA = [];
         var parentBucketB = [];
         var parentArrayA = [];
         var parentArrayB = [];
 
-        // Put each old phenotype into the parent arrays a number of times determined by its normalizedFitness score.
-        while ((parentBucketA.length < this.totalMembers) && (parentBucketB.length < this.totalMembers)) {
-            for (var i = 0; i < this.totalMembers; i++) {
-                let currentMember = this.members[i];
-    
-                for (var j = 0; j < this.members[i].normalizedFitness; j++) {
-    
-                    parentBucketA.push(currentMember);
-                    parentBucketB.push(currentMember);
-                }
+        // // Put each old phenotype into the parent arrays a number of times determined by its normalizedFitness score.
+
+        // CRASHINESS LIVES HERE!!!
+
+        for (var i = 0; i < this.totalMembers; i++) {
+            let currentMember = this.members[i];
+
+            for (var j = 0; j < this.members[i].normalizedFitness; j++) {
+
+                parentBucketA.push(currentMember);
+                parentBucketB.push(currentMember);
             }
         }
 
-        //console.log(parentBucketA[1].totalDistance);
-        // var bucketLength = parentBucketA.length;
-        // var testArray = [];
-        // for(var i = 0; i < bucketLength; i++) {
-        //     //testArray.push(floor(this.parentBucketA[i].totalDistance))
-        //     console.log('hi');
+        // while ((parentBucketA.length < this.totalMembers) && (parentBucketB.length < this.totalMembers)) {
+        //     for (var i = 0; i < this.totalMembers; i++) {
+        //         let currentMember = this.members[i];
+    
+        //         for (var j = 0; j < this.members[i].normalizedFitness; j++) {
+    
+        //             parentBucketA.push(currentMember);
+        //             parentBucketB.push(currentMember);
+        //         }
+        //     }
         // }
-        // console.log(testArray);
 
-        // shuffle parent buckets, then populate parent arrays with appropriate number of phenotypes
-        parentBucketA = shuffle(parentBucketA);
-        parentBucketB = shuffle(parentBucketB);
+        // // shuffle parent buckets, then populate parent arrays with appropriate number of phenotypes
+        // parentBucketA = shuffle(parentBucketA);
+        // parentBucketB = shuffle(parentBucketB);
 
-        //console.log('DEBUG: parentBucketA.length: ' + parentBucketA.length);
+        // //console.log('DEBUG: parentBucketA.length: ' + parentBucketA.length);
 
-        parentArrayA = parentBucketA.slice(0, 500);
-        parentArrayB = parentBucketB.slice(0, 500);
+        // parentArrayA = parentBucketA.slice(0, 500);
+        // parentArrayB = parentBucketB.slice(0, 500);
 
-        //console.log('DEBUG: parentArrayA.length: ' + parentArrayA.length);
+        // //console.log('DEBUG: parentArrayA.length: ' + parentArrayA.length);
 
-        // PROVISIONAL: set next generation as parentArrayA
-        this.members = parentArrayA.slice();
+        // // PROVISIONAL: set next generation as parentArrayA
+        // this.members = parentArrayA.slice();
 
-        //console.log(this.members);
+        // //console.log(this.members);
 
-        // Increment generation
+        // // Increment generation
         this.generation += 1;
 
-        // Assess fitness, because why not do it here?
-        this.assessFitness();
+        // // Assess fitness, because why not do it here?
+        //this.assessFitness();
 
         // DEBUG: report
         console.log('Created generation ' + this.generation + '. Best = ' + floor(this.bestPhenotypeToDate.totalDistance));
